@@ -2,10 +2,11 @@ import sys
 
 import requests
 
-print(sys.version)
-print(sys.executable)
+# print(sys.version)
+# print(sys.executable)
 r = requests.get("https://wordpress.com")
 print(r.status_code)
+print(r.ok)
 
 # count = 0
 # dash = "-"
