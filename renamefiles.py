@@ -6,7 +6,6 @@ import requests
 # print(sys.executable)
 r = requests.get("https://wordpress.com")
 print(r.status_code)
-print(r.ok)
 
 # count = 0
 # dash = "-"
