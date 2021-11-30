@@ -5,7 +5,7 @@ source_path = r"E:\Media\Music\Various Artists"
 
 def single_file():
     dash = "-"
-    with open("dest_dirsa.txt") as read_file1:
+    with open("dest_dirs.txt") as read_file1:
         for rf in read_file1:
             rf = rf.rstrip("\n")
             print(rf)
