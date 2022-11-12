@@ -51,18 +51,18 @@ def create_dir_and_unzip():
                         print("You do not have access to this folder/file.")
                     finaldir = title
                     # This line creates the album subdirectory inside the artist directory
-                    # os.mkdir(finaldir)
+                    os.mkdir(finaldir)
                     # This line extracts the music files from the zip file
-                    # zip_ref.extractall(finaldir)
+                    zip_ref.extractall(finaldir)
                     # This line creates a variable that is returned to use in "dash_in_name" function
                     rename_dir = check_artist_dir + "\\" + title
                 else:
                     # If the artist directory doesn't exist, this line concatenates the destination path with the newly created variables
                     finaldir = dest_path + "\\" + artist_new + "\\" + title
                     # This line creates the album and artist directories
-                    # os.makedirs(finaldir)
+                    os.makedirs(finaldir)
                     # This line extracts the music files from the zip file
-                    # zip_ref.extractall(finaldir)
+                    zip_ref.extractall(finaldir)
                     # This line creates a variable that is returned to use in "dash_in_name" function
                     rename_dir = finaldir
     return rename_dir
@@ -78,20 +78,31 @@ def dash_in_name(filesdir):
         # This section finds the second dash in the file name and also builds a count to use to number the music files
         occurrence = 2
         inilist = [d.start() for d in re.finditer(r"-", i)]
-        if len(inilist)>= 2:
+        if len(inilist) >= 2:
             count = count + 1
-            artist, orig_title = i[:inilist[occurrence-1]], i[inilist[occurrence-1]:]
+            artist, orig_title = (
+                i[: inilist[occurrence - 1]],
+                i[inilist[occurrence - 1] :],
+            )
+            # In case there are non-music files with the same dashed name format, this if statement will skip over them and not rename them
+            if orig_title.lower().endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")):
+                print(i, " is not a music file. Skipped.")
+                continue
             # This section finds the first alphanumeric character, which cuts off all the leading numbers, dashes, and spaces
             match = re.compile("[^\W\d]").search(orig_title)
-            dump_number, orig_title = [orig_title[: match.start()], orig_title[match.start() :]]
+            dump_number, orig_title = [
+                orig_title[: match.start()],
+                orig_title[match.start() :],
+            ]
             # This line names the count two digits long and changes title to my preferred format (EX: 01 - musicfile.ext)
             new_title = str(count).zfill(2) + " - " + orig_title
             # This line renames the file to my preferred format (EX: 01 - musicfile.ext)
             os.rename(filesdir + "\\" + (i), filesdir + "\\" + (new_title))
-            print(filesdir + "\\" + (new_title), "has been created")
+            print(" Created ", filesdir + "\\" + (new_title))
         else:
             # This line confirms that filenames without a dash are skipped over
             print(" No occurrence of a dash in", i.format(occurrence))
-              
+
+
 return_dir = create_dir_and_unzip()
 dash_in_name(return_dir)
