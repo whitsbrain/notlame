@@ -1,6 +1,6 @@
 import os
 
-source_path = r"E:\Media\Music\Various Artists"
+source_path = r"M:\Music\Various Artists"
 
 
 def file_format_check():
