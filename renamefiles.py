@@ -1,14 +1,21 @@
 import os
 import re
 
-# For Various Artists, the source_path is source_path = r"M:\Music\Various Artists".  The title of the various
-# artists album just needs to be added in the dest_dirs.txt file.  If you are doing a single band's album,
-# you need to just include the directory path for the artist\album in dest_dirs.txt
+# This script contains different functions that I created to try and easily change goofy music file names into my preferred format, which is:
+#       "01 - filename.ext"
+# Depending on the file name, a function can be selected in this script to change the filenames to my format.  You will have to comment out
+# the functions that aren't needed.  This is necessary because the files that I purchase from Bruce Brodeen (Not Lame, Power Pop Geek) have
+# file names that are so goofy or varied, I just can't predict what the file names are going to be.  So I've been writing functions to handle
+# each naming convention that I run into.
+#
+# For Various Artists, the source_path should be changed to "M:\Music\Various Artists" here.  So the title of the various
+# artists' album name just needs to be added in the dest_dirs.txt file.
+# For individual artist's albums, you need to include the directory path for the artist\album in dest_dirs.txt
 source_path = r"M:\Music"
 
 # This function will try to strip everything before the first dash ("index") in a file name.  It will add a space
 # before the dash to prepare for an addition of a file number ("count"). The file name format that this function
-# is building looks like my preferred format of "01 - filename.mp3"
+# builds is my preferred format of "01 - filename.mp3"
 def if_dash_in_name():
     dash = "-"
     with open("dest_dirsa.txt") as read_file1:
@@ -36,7 +43,6 @@ def if_dash_in_name():
                 new_title = str(count).zfill(2) + title + "." + audiofile
                 os.rename(file_path + "\\" + (i), file_path + "\\" + (new_title))
                 print(new_title)
-                # hit_file.write(new_title)
 
 
 # This function will remove any leading spaces before the filename.  For example, if a file name looks like
@@ -62,10 +68,6 @@ def remove_extra_spaces():
 # This function will split a file name at the first alphanumeric character.  For example, if the file name was
 # like this: "[01] Lipstick", this function will split it at "L", and take "Lipstick" and prefix it with a count,
 # so that files of an album are number to my preferred format of "03 - Lipstick".
-# At of the last time I used this, it needed to be run after "renamefiles.py" so the original file name was
-# spilt at the "-".  I want to try and include this file in a single function, but the files that I get from
-# Bruce Brodeen (Not Lame, Power Pop Geek) have file names that are so goofy or varied, I just can't predict
-# what the file names are going to be.
 def if_bracket_in_name():
     with open("dest_dirsa.txt") as read_file1:
         for rf in read_file1:
@@ -83,12 +85,10 @@ def if_bracket_in_name():
                 os.rename(file_path + "\\" + (i), file_path + "\\" + (new_title))
                 print(new_title)
 
+
 # This function will split a file name at the first alphanumeric character.  For example, if the file name was
 # like this: "01 Castles in Spain", this function will split it at "C", and take "Castles in Spain" and prefix it with a count,
 # so that files of an album are number to my preferred format of "01 - Castles in Spain".
-# I want to try and include this file in a single function, but the files that I get from
-# Bruce Brodeen (Not Lame, Power Pop Geek) have file names that are so goofy or varied, I just can't predict
-# what the file names are going to be.
 def no_dash_in_name():
     with open("dest_dirsa.txt") as read_file1:
         for rf in read_file1:
@@ -107,6 +107,7 @@ def no_dash_in_name():
                 print(new_title)
                 # splitat = index
                 # artist, orig_title = i[:splitat], i[splitat:]
+
 
 # if_dash_in_name()
 # remove_extra_spaces()
